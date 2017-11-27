@@ -9,6 +9,9 @@ namespace sem2
     class Program
     {
         static void Main()
+            //здрасьте, я Маннанова Гульназ, 
+            //и я не люблю писать комментраии
+            // задача 2 на нахождения числа Pi
         {
             double a = 1;
             double b = 1 / Math.Sqrt(2);
@@ -22,7 +25,8 @@ namespace sem2
             {
                 double aAdd = a;
                 double bAdd = b;
-
+                
+                //все по формуле (я даже не знаю, что коммитить)
                 item = sum;
                 sum = Math.Pow(a + b, 2) / 4 / t;
 
