@@ -4,40 +4,95 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BigInt
+namespace BigInt_altered
 {
     class Program
     {
         static void Main()
         {
-            int number = int.Parse(Console.ReadLine());
-            int[] sum = new int [number*number];
+            //Mannanova Gulnaz 11-708 BigInt
 
-            for (int i = 0; i <= number; i++)
-                sum = ToFindSum(sum, ToConvertNumToArray(i));
-            sum.Reverse();
+            int number = int.Parse(Console.ReadLine());
+            int[] sum = new int[100];
+
+            for (int i = 1; i<= number; i++)
+            {
+                var factorial = ToFindSquareFactorial(i);
+                sum = ToFindSum(sum, factorial);
+            }
+           
+            Array.Reverse(sum);
+            sum = ArrayFragmentation(sum);
             foreach (var e in sum)
                 Console.Write(e);
+
             Console.ReadKey();
-           /* for (int n = 1; n <= number; n++)
+        }
+
+        //Метод нахождения квадрата факториала
+        //....
+        //....
+        public static int[] ToFindSquareFactorial(int n)
+        {
+            int[] result = new int[100];
+            result[0] = 1;
+
+            for (int i = 1; i <= n; i++)
             {
-                int[] composition = new int[n * n];
-                composition[0] = 1;
-
-                for (int i = 1; i <= n; i++)
-                {
-                    composition = ToFindProduct(composition, ToConvertNumToArray(i));
-                }
-
-                composition = ToFindProduct(composition, composition);
-                sum = ToFindSum(sum, composition);
+                var array = ToConvertNumToArray(i);
+                result = ToFindProduct(array, result);
             }
 
-            sum.Reverse();
-            foreach (var e in sum)
-                Console.Write(e);
-            Console.ReadKey();
-            */
+            return ToFindProduct(result, result);
+        }
+
+
+        //Метод нахождения суммы чисел
+        //....
+        //....
+        public static int[] ToFindSum(int[] a, int[] b)
+        {
+            //Меняет ссылки на массив, если первое число окажется меньше второго
+            if (a.Length < b.Length)
+            {
+                var c = a;
+                a = b;
+                b = c;
+            }
+            int maxItem = a.Length;
+            int minItem = b.Length;
+
+            var result = new int[maxItem + 1]; //Массив, куда будет введен результат
+            int remainder = 0; //остаток
+
+            for (int i = 0; i < minItem; i++)
+            {
+                result[i] = a[i] + b[i] + remainder;
+                if (result[i] > 9)
+                {
+                    remainder = result[i] / 10;
+                    result[i] %= 10;
+                }
+                else remainder = 0;
+            }
+
+
+            for (int i = minItem; i < maxItem; i++)
+            {
+                result[i] = a[i] + remainder;
+                //здрасьте, меня зовут Гульназ,
+                //и я не люблю делать отдельно методы
+                if (result[i] > 9)
+                {
+                    remainder = result[i] / 10;
+                    result[i] %= 10;
+                }
+                else remainder = 0;
+            }
+
+
+            if (remainder != 0) result[maxItem] = remainder;
+            return result;
         }
 
         //Переводим число в массив без reversed, т.к. умножать и складывать легче:
@@ -56,118 +111,65 @@ namespace BigInt
             return (number.ToArray());
         }
 
-        //Метод нахождения суммы чисел
-        //....
-        //....
-        public static int[] ToFindSum(int[] a, int[] b)
-        {
-            //На этом шаге проверяем max длину числа
-            //Вводим флажок, чтобы (*)
-            bool k = true;
-            int maxItem = a.Length;
-            int minItem = b.Length;
-
-            if (maxItem < minItem)
-            {
-                int item = maxItem;
-                maxItem = minItem;
-                minItem = item;
-                k = false;
-            }
-
-            //создаем новый массив, куда будем помещать результат;
-            //длина массива на 1 элемент больше максимального, т.к. последние 2 эл в сумме мб > 0;
-            var result = new int[maxItem + 1];
-            int remainder = 0;
-
-            for (int i = 0; i < minItem; i++)
-            {
-                result[i] = a[i] + b[i] + remainder;
-                if (result[i] > 9)
-                {
-                    remainder = result[i] / 10;
-                    result[i] %= 10;
-                }
-            }
-
-            for (int i = minItem; i < maxItem; i++)
-            {
-                if (k) // (*)
-                       //я не знаю как сделать, чтобы каждый раз при входе в цикл 
-                       //это условие не проверялось :с 
-                    result[i] = a[i] + remainder;
-                else result[i] = b[i] + remainder;
-            }
-
-            if (remainder != 0) result[maxItem] = remainder;
-            return result;
-        }
-
         //Метод нахождения произведения чисел
         //....
         //....
         public static int[] ToFindProduct(int[] a, int[] b)
-        { 
-            //На этом шаге проверяем max длину числа
-            //Вводим флажок, чтобы (*)
-            //и да, я знаю, что это можно выделить в отдельный метод, но зачем засорять программу?
-            bool k = true;
+        {
+            //Меняет ссылки на массив, если первое число окажется меньше второго
+            if (a.Length < b.Length)
+            {
+                var c = a;
+                a = b;
+                b = c;
+            }
             int maxItem = a.Length;
             int minItem = b.Length;
-
-            if (maxItem < minItem)
-            {
-                int item = maxItem;
-                maxItem = minItem;
-                minItem = item;
-                k = false;
-            }
 
             //создаем новый массив, куда будем помещать результат;
             var result = new int[minItem + maxItem];
             int remainder = 0;
 
-            //простите за такое кол.-во строк, в общем, эта штучка производит умножение:
-            if (k)
+            //умножаем поэлементно
+            for (int i = 0; i < minItem; i++)
             {
-                for (int i = 0; i < minItem; i++)
+                var resultAdd = new int[maxItem + minItem];
+                for (int j = 0; j < maxItem; j++)
                 {
-                    var resultAdd = result;
-                    for (int j = 0; j < maxItem; j++)
+                    resultAdd[i + j] += a[j] * b[i];
+                    if (resultAdd[i + j] > 9)
                     {
-                        resultAdd[i + j] += a[j] * b[i];
-                        if (resultAdd[i + j] > 9)
-                        {
-                            remainder = resultAdd[i + j] / 10;
-                            resultAdd[i + j] %= 10;
-                        }
-                        resultAdd[i + j] += resultAdd[i + j];
-                        resultAdd[i + j + 1] = remainder;
+                        remainder = resultAdd[i + j] / 10;
+                        resultAdd[i + j] %= 10;
                     }
-                    result = ToFindSum(result, resultAdd);
+                    else remainder = 0;
+                    resultAdd[i + j + 1] = remainder;
                 }
-            }
-
-            else
-            {
-                for (int i = 0; i < minItem; i++)
-                {
-                    var resultAdd = result;
-                    for (int j = 0; j < maxItem; j++)
-                    {
-                        resultAdd[i + j] += a[i] * b[j];
-                        if (resultAdd[i + j] > 9)
-                        {
-                            remainder = resultAdd[i + j] / 10;
-                            resultAdd[i + j] %= 10;
-                        }
-                        resultAdd[i + j] += resultAdd[i + j];
-                        resultAdd[i + j + 1] = remainder;
-                    }
-                    result = ToFindSum(result, resultAdd);
-                }
+                result = ToFindSum(result, resultAdd);
             }
             return result;
         }
+
+        //Метод, который убирает 0 
+        //....
+        //....
+        //....
+        public static int[] ArrayFragmentation(int[] array)
+        {
+            int counter = 0;
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] == 0)
+                    counter++;
+                else break;
+            }
+            var newArray = new int[array.Length - counter];
+            for (int i = counter; i < array.Length; i++)
+            {
+                newArray[i - counter] = array[i];
+            }
+            return newArray;
+        }
+
     }
 }
