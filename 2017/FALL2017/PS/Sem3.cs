@@ -10,6 +10,7 @@ namespace Sem._3_Mannanova
             int n = int.Parse(Console.ReadLine());
             String result = "";
 
+	    // ---check--- надо было сразу в консоль выводить, без промежуточного хранения, тогда бы были не нужны ни строки, ни массивы
             while (n > 0)
             {
                 switch (n % 16)
