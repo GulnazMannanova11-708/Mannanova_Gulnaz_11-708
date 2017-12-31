@@ -33,6 +33,7 @@ namespace sem2
             while (Math.Abs(addVar - sum) > e)
             {
                 addVar = sum;
+				// ---check--- зачем считать степень -1, нельзя просто домножать каждый раз на -1 предыдущий результат?
                 sum += Math.Pow(-1, k + 1) * ImplementheFormula(x, k);
                 k++;
             }

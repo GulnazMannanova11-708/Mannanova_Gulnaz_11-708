@@ -16,6 +16,7 @@ namespace sem_2._1._3
             Console.ReadKey();
         }
 
+		// ---check--- убирайте из кода ненужные комментарии
        /* static double ImplementheFormula(double x, int k)
         {
             double xn = 1;
@@ -52,6 +53,7 @@ namespace sem_2._1._3
                 addVar = sum;
 
                 item *= 4 * x * x / (i*2);
+				// ---check--- то же самое, как в предыдущем задании, зачем -1 в степень возводить?
                 sum += (Math.Pow((-1), i) * item);
 
                 k = i;

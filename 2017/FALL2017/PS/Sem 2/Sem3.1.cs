@@ -8,6 +8,7 @@ namespace sem2._3._1
 {
     class Program
     {
+		// ---check--- надо разделять методы ввода-вывода данных и методы вычисления
         static void Main()
             //Маннанова Гульназ, задача 3 пункт 1
             // на нахождение определ.интеграла методом левых прямоугольников
@@ -20,7 +21,9 @@ namespace sem2._3._1
             double lengthSegment = (b - a) / segment;
 
             //по формуле высчитываем сумму всех значений в точках от а до b - lengthSegment  
+			
             for (double i = a; i < b; i += lengthSegment)
+				// ---check--- подынтегральную функцию надо было оформить отдельным методом
                 area += Math.Sin(2 * i) / Math.Cos(i) / Math.Cos(i);
             //все это значение умножаем на длину отрезка
             area *= lengthSegment;

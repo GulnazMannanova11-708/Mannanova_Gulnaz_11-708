@@ -18,6 +18,7 @@ namespace sem2._3._3
             double b = 1.5;
             double lengthSegment = (b - a) / segment;
 
+			// ---check--- вы после for фигурные скобки не забыли?
             //по формуле высчитываем сумму всех значений, кроме точек а и b
             for (double i = a + lengthSegment; i < b; i += lengthSegment)
                 area += Math.Sin(2 * i) / Math.Cos(i) / Math.Cos(i);

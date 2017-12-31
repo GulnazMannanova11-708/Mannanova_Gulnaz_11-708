@@ -27,6 +27,7 @@ namespace Sem2._3._5
             {
                 double x = random.NextDouble() * (b - a) + a;
                 //40 - высота >= max значения этой функции
+				// ---check--- а как вы эту высоту вычислили? почему параметром не сделали?
                 double y = random.NextDouble() * 40;
                 //сравниваем значение у и значение функ. в точке х
                 if (y <= Math.Sin(2 * x) / Math.Cos(x) / Math.Cos(x)) k++;
